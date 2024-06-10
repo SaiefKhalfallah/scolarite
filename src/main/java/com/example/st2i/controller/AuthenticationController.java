@@ -63,6 +63,7 @@ public class AuthenticationController {
                 request.setImageContentType(contentType);
             } catch (IOException e) {
                 System.err.println("problem occured");
+
             }
         }
 
