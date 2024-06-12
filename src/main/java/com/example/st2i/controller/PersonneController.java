@@ -5,13 +5,17 @@ import com.example.st2i.repository.PersonneRepository;
 import com.example.st2i.service.PersonneService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,17 +59,31 @@ public class PersonneController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Personne> updatePersonne(@PathVariable("id") Long id, @RequestBody Personne personne) {
+    public ResponseEntity<Personne> updatePersonne(@PathVariable("id") Long id,
+            @RequestParam("firstname") String firstname,
+                                                   @RequestParam("lastname") String lastname,
+                                                   @RequestParam("datenaissance") @DateTimeFormat(pattern = "yyyy-MM-dd") Date datenaissance,
+                                                   @RequestParam("sexe") String sexe,
+                                                   @RequestParam("email") String email,
+                                                   @RequestParam("phoneNumber") int phoneNumber,
+                                                   @RequestParam("password") String password,
+                                                   @RequestParam("roles") String roles,
+                                                   @RequestParam(value = "image", required = false) MultipartFile imageFile) throws IOException {
 
             Personne updatedPersonne = personneService.getPersonneById(id);
-            updatedPersonne.setAdresse(personne.getAdresse());
-            updatedPersonne.setNom(personne.getNom());
-            updatedPersonne.setPrenom(personne.getPrenom());
-            updatedPersonne.setSexe(personne.getSexe());
-            updatedPersonne.setTelephone(personne.getTelephone());
-            updatedPersonne.setDatenaissance(personne.getDatenaissance());
-            updatedPersonne.setImage(personne.getImage());
-            personneRepo.save(updatedPersonne);
+            updatedPersonne.setNom(firstname);
+            updatedPersonne.setPrenom(lastname);
+            updatedPersonne.setSexe(sexe);
+            updatedPersonne.setTelephone(phoneNumber);
+            updatedPersonne.setDatenaissance(datenaissance);
+        if (imageFile != null && !imageFile.isEmpty()) {
+            byte[] imageData = imageFile.getBytes();
+            String contentType = imageFile.getContentType();
+            updatedPersonne.setImage(imageData);
+            updatedPersonne.setImageContentType(contentType);
+        }
+
+        personneRepo.save(updatedPersonne);
             return new ResponseEntity<>(updatedPersonne, HttpStatus.OK);
 
         }
