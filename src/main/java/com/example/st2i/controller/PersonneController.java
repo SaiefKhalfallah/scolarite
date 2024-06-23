@@ -96,6 +96,15 @@ public class PersonneController {
         return new ResponseEntity<>(updatedPersonne, HttpStatus.OK);
 
     }
+    @PatchMapping("/patch/class/{id}")
+    public ResponseEntity<Personne> AffecterClassePersonne(@PathVariable("id") Long id, @RequestBody Personne personne) {
+
+        Personne updatedPersonne = personneService.getPersonneById(id);
+        updatedPersonne.setNomclasse(personne.getNomclasse());
+        personneRepo.save(updatedPersonne);
+        return new ResponseEntity<>(updatedPersonne, HttpStatus.OK);
+
+    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
