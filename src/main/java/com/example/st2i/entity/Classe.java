@@ -24,6 +24,6 @@ public class Classe {
 	//@Column(name = "Nom")
 	private String nom;
 
-	@OneToMany
+	@ManyToMany
 	private List<Matiere> matieres;
 }

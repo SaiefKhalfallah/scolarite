@@ -56,7 +56,8 @@ public class Personne implements UserDetails{
 
 	@Column(name = "image_content_type", nullable = true)
 	private String imageContentType;
-	private Long Id_classe;
+
+	private String nomclasse;
 
 
 	@JsonIgnore

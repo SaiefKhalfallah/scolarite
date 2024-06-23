@@ -20,7 +20,7 @@ public class Matiere {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	//@Column(name = "Id_mat")
-	private Long Id_mat;
+	private Long id;
 	//@Column(name = "Nom")
 	private String nom;
 

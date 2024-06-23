@@ -1,6 +1,7 @@
 package com.example.st2i.service;
 
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.st2i.entity.Classe;
@@ -14,7 +15,7 @@ import java.util.Optional;
 public class ClasseService{
     @Autowired
     private ClasseRepository ClasseRepo;
-
+    @Transactional
     public Classe addClasse(Classe Classe) {
         return ClasseRepo.save(Classe);
     }
