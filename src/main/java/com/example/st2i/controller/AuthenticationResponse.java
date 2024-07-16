@@ -1,5 +1,6 @@
 package com.example.st2i.controller;
 
+import com.example.st2i.entity.Personne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,6 @@ import lombok.NoArgsConstructor;
 public class AuthenticationResponse {
 
         private String token;
-        private Long userId;
+        private Personne user;
 
 }

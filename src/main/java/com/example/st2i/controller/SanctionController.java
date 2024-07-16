@@ -1,6 +1,9 @@
 package com.example.st2i.controller;
 
 
+import com.example.st2i.entity.Personne;
+import com.example.st2i.entity.SanctionResponse;
+import com.example.st2i.repository.SanctionRepository;
 import com.example.st2i.service.SanctionService;
 import lombok.RequiredArgsConstructor;
 
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.example.st2i.entity.Sanction;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -23,10 +28,11 @@ public class SanctionController {
     @Autowired
     private SanctionService sanctionService;
 
-
+    @Autowired
+    private SanctionRepository sanctionRepo;
     @GetMapping("/all")
-    public ResponseEntity<List<Sanction>> getAllSanctions() {
-        List<Sanction> Sanctions = sanctionService.getAllSanction();
+    public ResponseEntity<List<SanctionResponse>> getAllSanctions() {
+        List<SanctionResponse> Sanctions = sanctionService.getAllSanction();
         return new ResponseEntity<>(Sanctions, HttpStatus.OK);
     }
 
@@ -41,6 +47,7 @@ public class SanctionController {
     public ResponseEntity<Sanction> addSanction(@RequestBody Sanction Sanction) {
 
         System.out.println("Sanction1"+Sanction);
+        Sanction.setDate(LocalDateTime.now());
 
         return new ResponseEntity<>(sanctionService.addSanction(Sanction),HttpStatus.CREATED);
     }
@@ -67,6 +74,15 @@ public class SanctionController {
     public ResponseEntity<?> delete(@PathVariable("id") Long id){
         sanctionService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PatchMapping("/patch/{id}")
+    public ResponseEntity<Sanction> changerStatus(@PathVariable("id") Long id, @RequestBody Sanction sanction) {
+
+        Sanction updatedSanction = sanctionService.getSanctionById(id);
+        updatedSanction.setConfirmation(sanction.getConfirmation());
+        sanctionRepo.save(updatedSanction);
+        return new ResponseEntity<>(updatedSanction, HttpStatus.OK);
+
     }
 
 

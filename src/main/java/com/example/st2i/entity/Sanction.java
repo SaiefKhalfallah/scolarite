@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -19,20 +20,24 @@ public class Sanction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	//@Column(name = "Id_sanction")
-	private Long Id_sanction;
+	private Long id_sanction;
 	//@Column(name = "Id_eleve")
-	private Long Id_eleve;
+	private Long id_eleve;
 	//@Column(name = "Id_enseinant")
-	private Long Id_enseignant;
+	private Long id_enseignant;
 	//@Column(name = "Type")
-	private String Type;
+	private String type;
 	//@Column(name = "Date")
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
-	private Date Date;
+	@JsonFormat(pattern="dd/MM/yyyy hh:mm")
+	private LocalDateTime date;
 	//@Column(name = "Motif")
-	private String Motif ;
+	private String motif ;
 	//@Column(name = "Description")
-	private String Description;
+	private String description;
+
+	private int confirmation;
+
+
 	
 
 }
