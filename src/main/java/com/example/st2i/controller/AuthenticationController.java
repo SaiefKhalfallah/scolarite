@@ -31,8 +31,9 @@ public class AuthenticationController {
             @RequestParam("phoneNumber") int phoneNumber,
             @RequestParam("password") String password,
             @RequestParam("roles") String roles,
+            @RequestParam("parentEmail") String parentEmail,
             @RequestParam("image") MultipartFile imageFile) {
-
+            System.out.println("rollllllllllllles"+roles);
         RegisterRequest request = new RegisterRequest();
         request.setFirstname(firstname);
         request.setLastname(lastname);
@@ -41,11 +42,16 @@ public class AuthenticationController {
         request.setEmail(email);
         request.setPhoneNumber(phoneNumber);
         request.setPassword(password);
+
         if (roles.equals("ETUDIANT")) {
             request.setRoles(Role.ETUDIANT);
+            request.setParentEmail(parentEmail);
         }
         else if (roles.equals("ADMINISTRATEUR")) {
             request.setRoles(Role.ADMINISTRATEUR);
+        }
+        else if (roles.equals("PERSONNEL")) {
+            request.setRoles(Role.PERSONNEL);
         }
 
         else {

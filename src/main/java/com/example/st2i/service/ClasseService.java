@@ -19,6 +19,16 @@ public class ClasseService{
     public Classe addClasse(Classe Classe) {
         return ClasseRepo.save(Classe);
     }
+    public Classe addOrUpdateClasse(Classe classe) {
+        Optional<Classe> existingClasse = ClasseRepo.findByNom(classe.getNom());
+        if (existingClasse.isPresent()) {
+            Classe existing = existingClasse.get();
+            existing.setMatieres(classe.getMatieres());
+            return ClasseRepo.save(existing);
+        } else {
+            return ClasseRepo.save(classe);
+        }
+    }
     public Classe getClasseById(Long id) {
         Optional<Classe> e= ClasseRepo.findById(id);
         return e.isPresent() ? e.get() : null;
@@ -32,4 +42,9 @@ public class ClasseService{
     public void deleteById(Long id){
         ClasseRepo.deleteById(id);
     }
+
+    public long countClasses() {
+        return ClasseRepo.count();
+    }
+
 }

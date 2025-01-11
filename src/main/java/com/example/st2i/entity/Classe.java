@@ -21,7 +21,7 @@ public class Classe {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	//@Column(name = "Id_classe")
 	private Long Id_classe;
-	//@Column(name = "Nom")
+	@Column(unique = true)
 	private String nom;
 
 	@ManyToMany

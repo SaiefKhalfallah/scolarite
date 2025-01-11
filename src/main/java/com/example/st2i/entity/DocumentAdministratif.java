@@ -21,10 +21,11 @@ public class DocumentAdministratif {
 	//@Column(name = "Date_reception")
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
 	private Date Date_reception;
-
+	private StatusDoc statusDoc;
 	//@Column(name = "Type")
 	private String Type ;
-	private Long id_eleve;
+	@Column(name = "id_eleve")
+	private Long idEleve;
 	@Lob
 	@Column(name = "fileupload", nullable = true)
 	private byte[] fileupload;

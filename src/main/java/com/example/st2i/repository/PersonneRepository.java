@@ -19,6 +19,11 @@ public interface PersonneRepository extends JpaRepository<Personne,Long>{
 
 	Optional<Personne> findById(Long id);
 
+	@Query("SELECT COUNT(p) FROM Personne p WHERE p.roles = com.example.st2i.entity.Role.ETUDIANT")
+	long countEleves();
+
+	@Query("SELECT COUNT(p) FROM Personne p WHERE p.roles = com.example.st2i.entity.Role.ENSEIGNANT")
+	long countEnseignants();
 
 
 

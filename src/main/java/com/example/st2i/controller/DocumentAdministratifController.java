@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 
@@ -75,7 +76,6 @@ public class DocumentAdministratifController {
     }
 
     @PostMapping("/add")
-
     public ResponseEntity<DocumentAdministratif> addDocumentAdministratif(@RequestBody DocumentAdministratif DocumentAdministratif) {
 
         System.out.println("DocumentAdministratif1"+DocumentAdministratif);
@@ -104,6 +104,31 @@ public class DocumentAdministratifController {
         documentAdministratifService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @PatchMapping("/status/patch/{id}")
+    public ResponseEntity<DocumentAdministratif> changeStatus(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> body
+    ) {
+        try {
+            String status = body.get("status");
+            DocumentAdministratif updatedDocument = documentAdministratifService.changeStatus(id, status);
 
+            return new ResponseEntity<>(updatedDocument, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<DocumentAdministratif>> getDocumentsForUser(@PathVariable Long userId) {
+        List<DocumentAdministratif> documents = documentAdministratifService.getDocumentsForUser(userId);
+        if (documents != null) {
+            return new ResponseEntity<>(documents, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
 }

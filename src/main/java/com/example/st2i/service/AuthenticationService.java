@@ -25,7 +25,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-
+    @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
         var personne = Personne.builder()
                 .email(request.getEmail())
@@ -35,7 +35,11 @@ public class AuthenticationService {
                 .Datenaissance(request.getDatenaissance())
                 .Sexe(request.getSexe())
                 .Telephone(request.getPhoneNumber())
-                .image(request.getImage()).imageContentType(request.getImageContentType()).username(request.getEmail()).roles(request.getRoles()).actif(true)
+                .image(request.getImage())
+                .imageContentType(request.getImageContentType())
+                .username(request.getEmail())
+                .roles(request.getRoles()).actif(true)
+                .parentEmail(request.getParentEmail())
                 .build();
 
         personne = repository.save(personne);

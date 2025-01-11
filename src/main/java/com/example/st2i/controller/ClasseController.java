@@ -36,7 +36,7 @@ public class ClasseController {
         return new ResponseEntity<>(Classe, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
+  /*  @PostMapping("/add")
 
     public ResponseEntity<Classe> addClasse(@RequestBody Classe Classe) {
 
@@ -44,7 +44,12 @@ public class ClasseController {
 
         return new ResponseEntity<>(classeService.addClasse(Classe),HttpStatus.CREATED);
     }
-
+        */
+      @PostMapping("/add")
+      public ResponseEntity<Classe> addOrUpdateClasse(@RequestBody Classe classe) {
+          Classe updatedClasse = classeService.addOrUpdateClasse(classe);
+          return new ResponseEntity<>(updatedClasse, HttpStatus.CREATED);
+      }
     @PutMapping("/update/{id}")
     public ResponseEntity<Classe> updateClasse(@PathVariable("id") Long id, @RequestBody Classe Classe) {
 
@@ -62,6 +67,9 @@ public class ClasseController {
         classeService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    @GetMapping("/count-classes")
+    public long getCountClasses() {
+        return classeService.countClasses();
+    }
 
 }

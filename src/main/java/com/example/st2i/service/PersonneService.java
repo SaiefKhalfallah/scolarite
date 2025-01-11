@@ -44,4 +44,15 @@ public class PersonneService{
     public void deleteById(Long id){
         PersonneRepo.deleteById(id);
     }
+
+
+
+
+    public long getCountEleves() {
+        return PersonneRepo.countEleves();
+    }
+
+    public long getCountEnseignants() {
+        return PersonneRepo.countEnseignants();
+    }
 }

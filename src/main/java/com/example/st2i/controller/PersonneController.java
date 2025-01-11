@@ -1,6 +1,7 @@
 package com.example.st2i.controller;
 
 import com.example.st2i.entity.Personne;
+import com.example.st2i.entity.Role;
 import com.example.st2i.repository.PersonneRepository;
 import com.example.st2i.service.PersonneService;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +60,7 @@ public class PersonneController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Personne> updatePersonne(@PathVariable("id") Long id,
+    public ResponseEntity<?> updatePersonne(@PathVariable("id") Long id,
             @RequestParam("firstname") String firstname,
                                                    @RequestParam("lastname") String lastname,
                                                    @RequestParam("datenaissance") @DateTimeFormat(pattern = "yyyy-MM-dd") Date datenaissance,
@@ -68,6 +69,7 @@ public class PersonneController {
                                                    @RequestParam("phoneNumber") int phoneNumber,
                                                    @RequestParam("password") String password,
                                                    @RequestParam("roles") String roles,
+                                                   @RequestParam("parentEmail") String parentEmail,
                                                    @RequestParam(value = "image", required = false) MultipartFile imageFile) throws IOException {
 
             Personne updatedPersonne = personneService.getPersonneById(id);
@@ -82,7 +84,25 @@ public class PersonneController {
             updatedPersonne.setImage(imageData);
             updatedPersonne.setImageContentType(contentType);
         }
+        switch (roles) {
+            case "ETUDIANT":
+                updatedPersonne.setRoles(Role.ETUDIANT);
+                updatedPersonne.setParentEmail(parentEmail);
+                break;
+            case "PARENT":
+                updatedPersonne.setRoles(Role.PARENT);
+                break;
+            case "ENSEIGNANT":
+                updatedPersonne.setRoles(Role.ENSEIGNANT);
+                break;
 
+            case "ADMINISTRATEURSERVICE":
+                updatedPersonne.setRoles(Role.ADMINISTRATEUR);
+                break;
+            default:
+
+                return new ResponseEntity<>("Rôle non valide", HttpStatus.BAD_REQUEST);
+        }
         personneRepo.save(updatedPersonne);
             return new ResponseEntity<>(updatedPersonne, HttpStatus.OK);
 
@@ -110,6 +130,20 @@ public class PersonneController {
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
             personneService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        }
+    }
+
+
+    @GetMapping("/count-eleves")
+    public long getCountEleves() {
+        return personneService.getCountEleves();
+    }
+
+    @GetMapping("/count-enseignants")
+    public long getCountEnseignants() {
+        return personneService.getCountEnseignants();
+    }
+
+
+
     }
 

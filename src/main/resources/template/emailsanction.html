@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation de Sanction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #dddddd;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .content {
+            padding: 20px;
+            color: #333333;
+        }
+        .footer {
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 10px;
+            font-size: 12px;
+            color: #999999;
+        }
+        .info-section {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #fafafa;
+            border: 1px solid #eeeeee;
+            border-radius: 5px;
+        }
+        .info-section span {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        .button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="header">
+        <h1>Confirmation de Sanction</h1>
+    </div>
+    <div class="content">
+        <p>Bonjour, je suis l'enseignant(e) <span>[[${teacherFirstName}]] [[${teacherLastName}]]</span>,</p>
+        <p>Nous vous informons qu'une sanction a été imposée à l'élève :</p>
+
+        <div class="info-section">
+            <p><span>Élève :</span> [[${studentFirstName}]] [[${studentLastName}]]</p>
+            <p><span>Classe :</span> [[${studentClass}]]</p>
+            <p><span>Date de la sanction :</span> [[${sanctionDate}]]</p>
+            <p><span>Type de sanction :</span> [[${type}]]</p>
+            <p><span>Description de la sanction :</span> [[${description}]]</p>
+        </div>
+
+        <p><strong>Statut :</strong> [[${status}]]</p>
+    </div>
+    <div class="footer">
+        <p>© 2025 École XYZ. Tous droits réservés.</p>
+    </div>
+</div>
+</body>
+</html>

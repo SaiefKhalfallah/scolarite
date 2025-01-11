@@ -26,6 +26,6 @@ public class RegisterRequest {
 	private Role roles;
 	@Lob
 	private byte[] image;
-
+	private String parentEmail;
 	private String imageContentType;
 }

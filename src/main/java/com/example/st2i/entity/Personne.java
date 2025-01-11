@@ -2,10 +2,12 @@ package com.example.st2i.entity;
 
 
 
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -49,7 +51,7 @@ public class Personne implements UserDetails{
 	private String password;
 
 	private Role roles;
-
+	private String parentEmail;
 	@Lob
 	@Column(name = "image", nullable = true)
 	private byte[] image;
@@ -58,8 +60,15 @@ public class Personne implements UserDetails{
 	private String imageContentType;
 
 	private String nomclasse;
-
-
+	@JsonIgnore
+	@OneToMany(mappedBy = "personne", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Reclamation> reclamations;
+	@JsonIgnore
+	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Commentaire> commentaires;
+	/*@JsonIgnore
+	@ManyToMany(mappedBy = "likes")
+	private Set<Reclamation> likedReclamations = new HashSet<>();*/
 	@JsonIgnore
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -2,14 +2,16 @@ package com.example.st2i.entity;
 
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.Data;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -18,7 +20,7 @@ public class Reclamation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	//@Column(name = "Id_Reclamation")
-	private Long Id_Reclamation;
+	private Long idReclamation;
 	//@Column(name = "Titre")
 	private String Titre;
 	//@Column(name = "Date")
@@ -28,10 +30,24 @@ public class Reclamation {
 	private String Description;
 	//@Column(name = "Heure")
 	private String Heure ;
-	//@Column(name = "Image")
-	private String Image ;
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	private byte[] image;
 	//@Column(name = "Type")
 	private String Type ;
-		
 
+	@ManyToOne
+	@JoinColumn(name = "personne_id")
+	private Personne personne;
+
+	@OneToMany(mappedBy = "reclamation", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Commentaire> commentaires;
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "Reclamation_Likes",
+			joinColumns = @JoinColumn(name = "reclamation_id"),
+			inverseJoinColumns = @JoinColumn(name = "personne_id")
+	)
+	private Set<Personne> likes = new HashSet<>();
 }
